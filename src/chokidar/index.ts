@@ -16,6 +16,7 @@ export const createWatcher = (
 
   watcher.on("ready", () => {
     log("Watching files for changes...");
+
     watcher.on("change", (path) => {
       log(`Changed: ${path}`);
       onChange(path);
