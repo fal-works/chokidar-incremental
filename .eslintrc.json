@@ -1,4 +1,4 @@
-// see also: https://eslint.org/docs/user-guide/configuring
+// https://eslint.org/docs/user-guide/configuring
 {
   "ignorePatterns": ["/lib/"],
 
