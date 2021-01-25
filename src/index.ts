@@ -14,12 +14,12 @@ export type WatchCallbacks<T> = {
 /**
  * Constructs and runs a file watcher.
  *
- * @param filePatterns Glob pattern(s) of files to watch.
+ * @param paths Glob pattern(s) of files to watch.
  * @param onStart Called once when the watcher is ready. This should return
  * `onChange` and (optionally) `onExit`.
  */
 export const watch = async <T>(
-  filePatterns: string | readonly string[],
+  paths: string | readonly string[],
   onStart: () => Promise<WatchCallbacks<T>>,
   options?: {
     onStartMessage?: () => string;
@@ -35,7 +35,7 @@ export const watch = async <T>(
   const watchCallbacks = await measureAndLog(onStart, undefined, getStartMsg);
   const onChangeCallback = watchCallbacks.onChange;
 
-  return createWatcher(filePatterns, {
+  return createWatcher(paths, {
     onChange: (path: string) =>
       measureAndLog(onChangeCallback, path, getChangeMsg),
     onExit: watchCallbacks.onExit,
