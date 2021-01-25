@@ -28,14 +28,9 @@ export const watch = async <T>(
 ): Promise<FSWatcher> => {
   const { onStartMessage, onChangeMessage, chokidarOptions } = options || {};
 
-  const runOnStart = createTaskRunner(
-    log,
-    onStartMessage || (() => "Completed onStart task.")
-  );
-  const runOnChange = createTaskRunner(
-    log,
-    onChangeMessage || (() => "Completed onChange task.")
-  );
+  const defaultMessage = () => "done.";
+  const runOnStart = createTaskRunner(log, onStartMessage || defaultMessage);
+  const runOnChange = createTaskRunner(log, onChangeMessage || defaultMessage);
 
   log("Initialize file watcher.");
   const watchCallbacks = await runOnStart(onStart, undefined);
