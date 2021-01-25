@@ -1,6 +1,6 @@
 import { createWatcher } from "./chokidar/index.js";
 import { createTaskRunner } from "./util/task.js";
-import { print, println } from "./util/print.js";
+import { print } from "./util/print.js";
 
 import type { WatchOptions, FSWatcher } from "chokidar";
 
@@ -29,14 +29,8 @@ export const watch = async <T>(
   const { onStartMessage, onChangeMessage, chokidarOptions } = options || {};
 
   const defaultMessage = () => "Done.";
-  const runOnStart = createTaskRunner(
-    println,
-    onStartMessage || defaultMessage
-  );
-  const runOnChange = createTaskRunner(
-    println,
-    onChangeMessage || defaultMessage
-  );
+  const runOnStart = createTaskRunner(onStartMessage || defaultMessage);
+  const runOnChange = createTaskRunner(onChangeMessage || defaultMessage);
 
   print("Initial run > ");
   const watchCallbacks = await runOnStart(onStart, undefined);

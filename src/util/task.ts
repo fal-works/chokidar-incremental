@@ -1,11 +1,10 @@
+import { println } from "./print.js";
+
 /**
  * @param log Any logging function.
  * @param getMessage Message factory, which receives the task result.
  */
-export const createTaskRunner = <T>(
-  log: (message: string) => void,
-  getMessage: (result: T) => string
-) => {
+export const createTaskRunner = <T>(getMessage: (result: T) => string) => {
   /**
    * @param task Any callback function.
    * @param arg Argument to be passed to `task`.
@@ -19,7 +18,7 @@ export const createTaskRunner = <T>(
     const end = new Date();
 
     const duration = end.getTime() - start.getTime();
-    log(`${getMessage(result)} (${duration} ms)`);
+    println(`${getMessage(result)} (${duration} ms)`);
 
     return result;
   };
