@@ -37,6 +37,7 @@ export const watch = async <T>(
     onChangeMessage || (() => "Completed onChange task.")
   );
 
+  log("Initialize file watcher.");
   const watchCallbacks = await runOnStart(onStart, undefined);
   const onChangeCallback = watchCallbacks.onChange;
 
