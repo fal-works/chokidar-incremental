@@ -1,17 +1,19 @@
 import * as chokidar from "chokidar";
 import { log } from "../util/log.js";
 
-export type Options = {
-  /** Paths of Glob patterns to watch. */
-  paths: string | readonly string[];
+export type Paths = Parameters<typeof chokidar.watch>[0];
 
+export type Options = {
   onChange(path: string): void;
   onExit?: NodeJS.ExitListener;
   chokidarOptions?: chokidar.WatchOptions;
 };
 
-export const createWatcher = (options: Options): chokidar.FSWatcher => {
-  const watcher = chokidar.watch(options.paths, options.chokidarOptions);
+export const createWatcher = (
+  paths: Paths,
+  options: Options
+): chokidar.FSWatcher => {
+  const watcher = chokidar.watch(paths, options.chokidarOptions);
   const { onChange, onExit } = options;
 
   watcher.on("ready", () => {

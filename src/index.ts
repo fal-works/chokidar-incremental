@@ -35,8 +35,7 @@ export const watch = async <T>(
   const watchCallbacks = await measureAndLog(onStart, undefined, getStartMsg);
   const onChangeCallback = watchCallbacks.onChange;
 
-  return createWatcher({
-    paths: filePatterns,
+  return createWatcher(filePatterns, {
     onChange: (path: string) =>
       measureAndLog(onChangeCallback, path, getChangeMsg),
     onExit: watchCallbacks.onExit,
