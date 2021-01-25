@@ -26,3 +26,17 @@ Should return `onChange` (async) and `onExit` (optional).
     - `chokidarOptions`: options for the original chokidar API.
 
 See type declaration for details.
+
+
+## Console output
+
+Looks like this:
+
+```text
+Initial run > Done. (31 ms)
+Watching files for changes...
+Change src\main.ts > Done. (13 ms)
+Change src\setup.ts > Done. (13 ms)
+Change src\main.ts > Done. (8 ms)
+Stop watching.
+```
