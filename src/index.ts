@@ -1,6 +1,6 @@
 import { createWatcher } from "./chokidar/index.js";
 import { createTaskRunner } from "./util/task.js";
-import { log } from "./util/log.js";
+import { print, println } from "./util/print.js";
 
 import type { WatchOptions, FSWatcher } from "chokidar";
 
@@ -28,16 +28,25 @@ export const watch = async <T>(
 ): Promise<FSWatcher> => {
   const { onStartMessage, onChangeMessage, chokidarOptions } = options || {};
 
-  const defaultMessage = () => "done.";
-  const runOnStart = createTaskRunner(log, onStartMessage || defaultMessage);
-  const runOnChange = createTaskRunner(log, onChangeMessage || defaultMessage);
+  const defaultMessage = () => "Done.";
+  const runOnStart = createTaskRunner(
+    println,
+    onStartMessage || defaultMessage
+  );
+  const runOnChange = createTaskRunner(
+    println,
+    onChangeMessage || defaultMessage
+  );
 
-  log("Initialize file watcher.");
+  print("Initial run > ");
   const watchCallbacks = await runOnStart(onStart, undefined);
   const onChangeCallback = watchCallbacks.onChange;
 
   return createWatcher(paths, {
-    onChange: (path: string) => runOnChange(onChangeCallback, path),
+    onChange: (path: string) => {
+      print(`Change ${path} > `);
+      runOnChange(onChangeCallback, path);
+    },
     onExit: watchCallbacks.onExit,
     chokidarOptions,
   });
