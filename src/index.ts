@@ -1,5 +1,6 @@
 import { createWatcher } from "./chokidar/index.js";
-import { measureAndLog } from "./util/date.js";
+import { createTaskRunner } from "./util/task.js";
+import { log } from "./util/log.js";
 
 import type { WatchOptions, FSWatcher } from "chokidar";
 
@@ -27,15 +28,20 @@ export const watch = async <T>(
 ): Promise<FSWatcher> => {
   const { onStartMessage, onChangeMessage, chokidarOptions } = options || {};
 
-  const getStartMsg = onStartMessage || (() => "Completed onStart task.");
-  const getChangeMsg = onChangeMessage || (() => "Completed onChange task.");
+  const runOnStart = createTaskRunner(
+    log,
+    onStartMessage || (() => "Completed onStart task.")
+  );
+  const runOnChange = createTaskRunner(
+    log,
+    onChangeMessage || (() => "Completed onChange task.")
+  );
 
-  const watchCallbacks = await measureAndLog(onStart, undefined, getStartMsg);
+  const watchCallbacks = await runOnStart(onStart, undefined);
   const onChangeCallback = watchCallbacks.onChange;
 
   return createWatcher(paths, {
-    onChange: (path: string) =>
-      measureAndLog(onChangeCallback, path, getChangeMsg),
+    onChange: (path: string) => runOnChange(onChangeCallback, path),
     onExit: watchCallbacks.onExit,
     chokidarOptions,
   });
