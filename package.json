@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "FAL",
   "keywords": [
-    "chokidar"
+    "chokidar",
+    "build"
   ],
   "files": [
     "lib",
