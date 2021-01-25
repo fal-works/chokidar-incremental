@@ -15,14 +15,14 @@ export const createWatcher = (options: Options): chokidar.FSWatcher => {
   const { onChange, onExit } = options;
 
   watcher.on("ready", () => {
-    log("Watching files for changes...\n");
+    log("Watching files for changes...");
     watcher.on("change", (path) => {
-      log(`Changed: ${path}\n`);
+      log(`Changed: ${path}`);
       onChange(path);
     });
 
     process.on("SIGINT", () => process.exit(0));
-    process.on("exit", () => log("Stop watching.\n"));
+    process.on("exit", () => log("Stop watching."));
     if (onExit) process.on("exit", onExit);
   });
 
