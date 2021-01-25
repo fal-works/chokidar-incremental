@@ -3,29 +3,27 @@ import { measureAndLog } from "./util/date.js";
 
 import type { WatchOptions, FSWatcher } from "chokidar";
 
-/**
- * Functions to be called during the watch mode.
- */
-export type WatchCallbacks<T> = {
-  onChange: (changedPath: string) => Promise<T>;
-  onExit?: NodeJS.ExitListener;
+type Options<T> = {
+  onStartMessage?: () => string;
+  onChangeMessage?: (result: T) => string;
+  chokidarOptions?: WatchOptions;
 };
 
 /**
  * Constructs and runs a file watcher.
  *
  * @param paths Glob pattern(s) of files to watch.
- * @param onStart Called once when the watcher is ready. This should return
- * `onChange` and (optionally) `onExit`.
+ * @param onStart Called once when the watcher is ready.
+ * This should return `onChange` and (optionally) `onExit`.
+ * @param options Other optional values.
  */
 export const watch = async <T>(
   paths: string | readonly string[],
-  onStart: () => Promise<WatchCallbacks<T>>,
-  options?: {
-    onStartMessage?: () => string;
-    onChangeMessage?: (result: T) => string;
-    chokidarOptions?: WatchOptions;
-  }
+  onStart: () => Promise<{
+    onChange: (path: string) => Promise<T>;
+    onExit?: NodeJS.ExitListener;
+  }>,
+  options?: Options<T>
 ): Promise<FSWatcher> => {
   const { onStartMessage, onChangeMessage, chokidarOptions } = options || {};
 
