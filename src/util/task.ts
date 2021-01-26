@@ -1,7 +1,6 @@
 import { println } from "./print.js";
 
 /**
- * @param log Any logging function.
  * @param getMessage Message factory, which receives the task result.
  */
 export const createTaskRunner = <T>(getMessage: (result: T) => string) => {
