@@ -1,12 +1,12 @@
 import * as chokidar from "chokidar";
-import { print, println } from "../util/print.js";
+import { println } from "../util/print.js";
 
 type Paths = Parameters<typeof chokidar.watch>[0];
 
 export const createWatcher = (
   paths: Paths,
   options: {
-    onChange(path: string): void;
+    onChange: (path: string) => void;
     onExit?: NodeJS.ExitListener;
     chokidarOptions?: chokidar.WatchOptions;
   }

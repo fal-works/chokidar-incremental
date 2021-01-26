@@ -36,10 +36,12 @@ export const watch = async <T>(
   const watchCallbacks = await runOnStart(onStart, undefined);
   const onChangeCallback = watchCallbacks.onChange;
 
+  const warn = (err: unknown) => console.warn(err);
+
   return createWatcher(paths, {
     onChange: (path: string) => {
       print(`Change ${path} > `);
-      runOnChange(onChangeCallback, path);
+      runOnChange(onChangeCallback, path).catch(warn);
     },
     onExit: watchCallbacks.onExit,
     chokidarOptions,
