@@ -25,13 +25,19 @@
       "files": ["src/**/*.ts"],
       "plugins": ["@typescript-eslint"],
       "parser": "@typescript-eslint/parser",
+      "parserOptions": { "project": "tsconfig.json" },
       "extends": [
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "prettier/@typescript-eslint"
       ],
       "rules": {
-        "no-fallthrough": "off" // already checked by TypeScript
+        "no-fallthrough": "off", // already checked by TypeScript
+        "@typescript-eslint/no-explicit-any": [
+          "warn",
+          { "fixToUnknown": true }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     },
 
