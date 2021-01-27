@@ -1,4 +1,5 @@
 import { println } from "./print.js";
+import { performance } from "perf_hooks";
 
 /**
  * @param getMessage Message factory, which receives task argument/result.
@@ -17,11 +18,11 @@ export const createTaskRunner = <S, T>(
     task: (arg: S) => Promise<U>,
     arg: S
   ): Promise<U> => {
-    const start = new Date();
+    const start = performance.now();
     const result = await task(arg);
-    const end = new Date();
+    const end = performance.now();
 
-    const duration = end.getTime() - start.getTime();
+    const duration = Math.round(end - start);
     println(`${getMessage(arg, result)} (${duration} ms)`);
 
     return result;
