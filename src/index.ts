@@ -1,12 +1,11 @@
 import { createWatcher } from "./chokidar/index.js";
 import { createTaskRunner } from "./util/task.js";
-import { print } from "./util/print.js";
 
 import type { WatchOptions, FSWatcher } from "chokidar";
 
 type Options<T> = {
   onStartMessage?: () => string;
-  onChangeMessage?: (result: T) => string;
+  onChangeMessage?: (path: string, result: T) => string;
   chokidarOptions?: WatchOptions;
 };
 
@@ -28,21 +27,20 @@ export const watch = async <T>(
 ): Promise<FSWatcher> => {
   const { onStartMessage, onChangeMessage, chokidarOptions } = options || {};
 
-  const defaultMessage = () => "Done.";
-  const runOnStart = createTaskRunner(onStartMessage || defaultMessage);
-  const runOnChange = createTaskRunner(onChangeMessage || defaultMessage);
+  const runOnStart = createTaskRunner(
+    onStartMessage || (() => "Initial run > Done.")
+  );
+  const runOnChange = createTaskRunner(
+    onChangeMessage || ((path: string) => `Changed ${path} > Done.`)
+  );
 
-  print("Initial run > ");
   const watchCallbacks = await runOnStart(onStart, undefined);
   const onChangeCallback = watchCallbacks.onChange;
 
   const warn = (err: unknown) => console.warn(err);
 
   return createWatcher(paths, {
-    onChange: (path: string) => {
-      print(`Change ${path} > `);
-      runOnChange(onChangeCallback, path).catch(warn);
-    },
+    onChange: (path: string) => runOnChange(onChangeCallback, path).catch(warn),
     onExit: watchCallbacks.onExit,
     chokidarOptions,
   });
