@@ -33,10 +33,10 @@ See type declaration for details.
 Looks like this:
 
 ```text
-Initial run > Done. (31 ms)
+Initial run > Done. (17 ms)
 Watching files for changes...
-Change src\main.ts > Done. (13 ms)
-Change src\setup.ts > Done. (13 ms)
-Change src\main.ts > Done. (8 ms)
+Changed src\setup.ts > Done. (10 ms)
+Changed src\setup.ts > Done. (13 ms)
+Changed src\main.ts > Done. (14 ms)
 Stop watching.
 ```
