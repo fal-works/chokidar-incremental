@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build": "rimraf lib && tsc && npm run format:lib",
-    "preformat:lib": "eslint --fix --no-ignore lib/**/*.js",
+    "preformat:lib": "eslint --fix --no-ignore lib/**/*.{js,ts}",
     "format:lib": "prettier --write lib/**/*.{js,ts}"
   }
 }

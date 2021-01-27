@@ -22,9 +22,14 @@
 
     // config for TypeScript
     {
-      "files": ["src/**/*.ts"],
+      "files": ["**/*.ts"],
       "plugins": ["@typescript-eslint"],
-      "parser": "@typescript-eslint/parser",
+      "parser": "@typescript-eslint/parser"
+    },
+
+    // config for source code in TypeScript
+    {
+      "files": ["src/**/*.ts"],
       "parserOptions": { "project": "tsconfig.json" },
       "extends": [
         "plugin:@typescript-eslint/recommended",
@@ -43,7 +48,7 @@
 
     // config just for pre-formatting purpose
     {
-      "files": ["**/*.js"],
+      "files": ["lib/**/*.{js,ts}"],
       "rules": {
         "lines-around-comment": [
           "error",
