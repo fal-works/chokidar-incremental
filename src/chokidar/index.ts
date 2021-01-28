@@ -3,6 +3,9 @@ import { println } from "../util/print.js";
 
 type Paths = Parameters<typeof chokidar.watch>[0];
 
+/**
+ * Constructs a chokidar watcher object with any `onChange`/`onExit` callbacks.
+ */
 export const createWatcher = (
   paths: Paths,
   options: {
