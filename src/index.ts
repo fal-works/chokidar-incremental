@@ -3,7 +3,10 @@ import { createTaskRunner } from "./util/task.js";
 
 import type { WatchOptions, FSWatcher } from "chokidar";
 
-type Options<T> = {
+/**
+ * Options that mey be passed to `watch()`.
+ */
+export type Options<T> = {
   onStartMessage?: () => string;
   onChangeMessage?: (path: string, result: T) => string;
   chokidarOptions?: WatchOptions;
